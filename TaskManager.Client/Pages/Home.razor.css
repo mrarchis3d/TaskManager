@@ -1,0 +1,39 @@
+﻿.home-container {
+    display: flex;
+    margin-left:auto;
+    margin-top:auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100%;
+    min-width: 100%;
+}
+
+h1 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.task-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.task-create {
+    border: 2px solid #4CAF50;
+}
+
+.task-list {
+    border: 2px solid #2196F3;
+}

@@ -1,0 +1,17 @@
+﻿@page "/"
+@using TaskManager.Client.Components
+@using TaskManager.Client.Services
+@using TaskManager.Core.DTOS
+@inject TaskService taskService
+
+<div class="home-container">
+    <h1>Tareas</h1>
+
+    <div class="task-container task-create">
+        <TaskCreate/>
+    </div>
+
+    <div class="task-container task-list">
+        <TaskList/>
+    </div>
+</div>

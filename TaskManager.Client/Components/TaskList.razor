@@ -1,0 +1,96 @@
+﻿@page "/task-list"
+@inject TaskService TaskService
+@inject AlertService notificationService
+@using TaskManager.Client.Enums
+@using TaskManager.Client.Services
+@using TaskManager.Core.DTOS
+
+
+<h3>Task List</h3>
+
+@if (showAlert)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Task Updated!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @onclick="CloseAlert"></button>
+    </div>
+}
+
+@if (TaskService.Tasks == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Fecha de vencimiento</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in TaskService.Tasks)
+            {
+                <tr>
+                    <td><input type="text" class="form-control" @bind="task.Tittle" /></td>
+                    <td><input type="text" class="form-control" @bind="task.Description" /></td>
+                    <td>
+                        <InputDate class="form-control" @bind-Value="task.DueDate" />
+                    </td>
+                    <td>
+                        <select class="form-control" @bind="task.State">
+                            <option value="PENDING">Pendiente</option>
+                            <option value="RUNNING">En Progreso</option>
+                            <option value="COMPLETED">Completada</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn btn-warning" @onclick="() => UpdateTask(task.Id, task)">Actualizar</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteTask(task.Id)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private bool showAlert = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (TaskService.Tasks != null && !TaskService.Tasks.Any())
+                await TaskService.LoadTasksAsync();
+    }
+
+    private async Task UpdateTask(Guid id, TaskDto task)
+    {
+        UpdateTaskDto taskDto = new()
+            {
+                Tittle = task.Tittle,
+                Description = task.Description,
+                DueDate = task.DueDate,
+                State = task.State
+            };
+        await TaskService.UpdateTaskAsync(id, taskDto);
+        notificationService.ShowAlert("Task Updated Successfully!", AlertType.Success);
+    }
+
+    private void CloseAlert()
+    {
+        showAlert = false;
+        StateHasChanged();
+    }
+
+    private async Task DeleteTask(Guid taskId)
+    {
+        await TaskService.DeleteTaskAsync(taskId);
+        TaskService.Tasks.Where(x => x.Id != taskId).ToList();
+        StateHasChanged();
+        notificationService.ShowAlert("Task Updated Successfully!", AlertType.Success);
+    }
+}

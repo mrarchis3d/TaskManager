@@ -1,0 +1,41 @@
+﻿@using TaskManager.Client.Enums
+@using TaskManager.Client.Services
+@inject AlertService alertService
+
+@if (!string.IsNullOrEmpty(alertMessage))
+{
+    <div class="alert-container">
+        <div class="@alertClass alert fade show" role="alert">
+            @alertMessage
+            <button type="button" class="btn-close" @onclick="CloseAlert" aria-label="Close">X</button>
+        </div>
+    </div>
+}
+@code {
+    private string alertMessage;
+    private string alertClass;
+
+    protected override void OnInitialized()
+    {
+        alertService.OnShowAlert += ShowAlert;
+    }
+
+    private void ShowAlert(string message, AlertType type)
+    {
+        alertMessage = message;
+        alertClass = type == AlertType.Success ? "alert-success" : "alert-danger";
+        StateHasChanged();
+    }
+
+    private void CloseAlert()
+    {
+        alertMessage = string.Empty;
+        alertClass = string.Empty;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        alertService.OnShowAlert -= ShowAlert;
+    }
+}

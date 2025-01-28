@@ -1,0 +1,51 @@
+﻿@page "/task/create"
+@using TaskManager.Client.Enums
+@using TaskManager.Client.Services
+@using TaskManager.Core.DTOS
+@inject TaskService taskService
+@inject AlertService notificationService
+@inject NavigationManager Navigation
+
+<div class="task-create-container">
+    <h3>Crear Tarea</h3>
+    <EditForm Model="taskModel" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="tittle">Título</label>
+            <InputText id="tittle" class="form-control" @bind-Value="taskModel.Tittle" />
+        </div>
+
+        <div class="form-group">
+            <label for="description">Descripción</label>
+            <InputText id="description" class="form-control" @bind-Value="taskModel.Description" />
+        </div>
+
+        <div class="form-group">
+            <label for="dueDate">Fecha de vencimiento</label>
+            <InputDate id="dueDate" class="form-control" @bind-Value="taskModel.DueDate" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Crear tarea</button>
+    </EditForm>
+</div>
+
+
+@code {
+    private CreateTaskDto taskModel = new CreateTaskDto();
+
+    private async Task HandleValidSubmit()
+    {
+        var task = await taskService.CreateTaskAsync(taskModel);
+        if (task is not null)
+        {
+            notificationService.ShowAlert("Task Created Successfully!", AlertType.Success);
+        }
+        else
+        {
+            notificationService.ShowAlert("Error Creating Task.", AlertType.Error);
+        }
+        taskModel = new();
+    }
+}

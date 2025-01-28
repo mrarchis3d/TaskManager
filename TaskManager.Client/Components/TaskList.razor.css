@@ -1,0 +1,72 @@
+﻿/* TaskList.css */
+.task-list-container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 20px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+    .task-list-container h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #343a40;
+    }
+
+.task-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+    .task-list .task-item {
+        background-color: #ffffff;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+        .task-list .task-item h4 {
+            margin: 0;
+            color: #007bff;
+        }
+
+        .task-list .task-item p {
+            margin: 5px 0;
+            color: #495057;
+        }
+
+        .task-list .task-item .task-due-date {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .task-list .task-item select {
+            padding: 5px 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .task-list .task-item .btn-update,
+        .task-list .task-item .btn-delete {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            .task-list .task-item .btn-update:hover {
+                background-color: #218838;
+            }
+
+        .task-list .task-item .btn-delete {
+            background-color: #dc3545;
+        }
+
+            .task-list .task-item .btn-delete:hover {
+                background-color: #c82333;
+            }
